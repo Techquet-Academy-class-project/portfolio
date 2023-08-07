@@ -26,4 +26,4 @@ const Portfolio = new mongoose.model ("portfolio", portfolioSchema);
 mongoose.connect("mongodb://127.0.0.1:27017/portfolio")
 .then(() => console.log("portfolio database is running"));
 
-module.exports = {Portfolio}
+module.exports = {Portfolio, roleEnum}

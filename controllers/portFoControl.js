@@ -11,7 +11,7 @@ const bcrypt = require("bcrypt");
 
 // GET ALL USERS
 module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
- const allUser = await Portfolio.find({}, "-name -username -intro", );
+ const allUser = await Portfolio.find({}, "-name -username -intro -password -lastChangedPassword" );
  res.json({data: allUser, success: true})
 })
 
@@ -47,3 +47,4 @@ const hashedPassword = await bcrypt.hash (req.body.password, 4);
 await Portfolio.updateOne ({_id: req.user._id}, {password: hashedPassword, createdOn: Date.now()})
 return res.status(200).json({message: "Password successfully updated", success: true})
 })
+

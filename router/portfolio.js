@@ -17,7 +17,7 @@ router.get("/profile", authorized, userProfile);
 // CHANGE PASSWORD
 router.put("/settings", authorized ,changePassword);
 
-router.put("/profile", authorized ,editUser);
+// router.put("/profile", authorized ,editUser);
 
 // GET ONE USER
 router.get("/:username", getAUser);
