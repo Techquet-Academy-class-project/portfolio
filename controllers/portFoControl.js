@@ -4,16 +4,16 @@ const bcrypt = require("bcrypt");
 
 
 // GET ALL APPROVED USERS
-// module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
-//  const allUser = await Portfolio.find({approved: true}, "-name -username -intro", );
-//  res.json({data: allUser, success: true})
-// })
-
-// GET ALL USERS
 module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
- const allUser = await Portfolio.find({}, "-name -username -intro -password -lastChangedPassword" );
+ const allUser = await Portfolio.find({approved: true}, "-name -username -intro", );
  res.json({data: allUser, success: true})
 })
+
+// GET ALL USERS
+// module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
+//  const allUser = await Portfolio.find({}, "-name -username -intro -password -lastChangedPassword" );
+//  res.json({data: allUser, success: true})
+// })
 
 
 // GET A USER
@@ -32,12 +32,21 @@ return res.json({data: req.user, message : "This is your profile", success : tru
 
 
 // EDIT USER PROFILE
-// module.exports.editUser = asyncErrHandler(async (req,res)=>{
-//  const {password, role, createdOn, ...others} = req.user;
-// const update = Portfolio.updateOne({_id: req.user}, req.body);
-// console.log(req.body);
-// res.json({data: update, message: "Update successful", success: true})
-// })
+module.exports.editUser = asyncErrHandler(async (req,res)=>{
+const { name, email, username, intro, about, tools, howManyMonthsProgramming, favoriteMealInTechquestProgram, favoriteQuote } = req.body;
+req.user.name = name;
+req.user.email = email;
+req.user.username = username;
+req.user.intro = intro;
+req.user.about = about;
+req.user.tools = tools;
+req.user.howManyMonthsProgramming = howManyMonthsProgramming;
+req.user.favoriteMealInTechquestProgram = favoriteMealInTechquestProgram;
+req.user.favoriteQuote = favoriteQuote;
+const updatedUser = await req.user.save();
+// console.log(updatedUser);
+return res.json({data: updatedUser, message: "Update successful", success: true });
+})
 
 
 // CHANGE PASSWORD

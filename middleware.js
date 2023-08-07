@@ -2,6 +2,7 @@ const {asyncErrHandler} = require("./errorHandler/asyncErrHandler");
 const jwt = require("jsonwebtoken");
 const {Portfolio} = require("./model");
 
+// CHECKING IF USER IS AUTHENTICATED
 module.exports.authorized = asyncErrHandler(async (req,res,next)=>{
 const token = req.cookies.authorization;
 if(!token) return res.json({message : "Authentication failed, please log in!", success : false, data : null});
@@ -15,6 +16,7 @@ req.user = user;
 next()
 })
 
+// CHECKING ADMIN-USER
 module.exports.checkAdmin = asyncErrHandler(async (req, res, next)=>{
  const token = req.cookies.authorization;
  // console.log(token);
@@ -23,7 +25,7 @@ module.exports.checkAdmin = asyncErrHandler(async (req, res, next)=>{
  // console.log(decodedToken);
  const userId = {_id: decodedToken._id}
  const user = await Portfolio.findById(userId);
- console.log(user);
+ // console.log(user);
  if (!user || user.role !== 'admin') {
   return res.status(403).json({ message: "Access denied. You are not an admin", success: false });
  }
