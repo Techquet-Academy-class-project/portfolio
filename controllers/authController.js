@@ -7,8 +7,8 @@ require("dotenv").config();
 
 module.exports.createUser = asyncErrorhandler(async (req, res) => {
   const { password, ...others } = req.body;
-  if (password.length < 7)
-    return res.json({ message: "Password should be greater than 6" });
+  if (password.length < 4)
+    return res.json({ message: "Password should be greater than 4" });
 
   const salt = await bcrypt.genSalt(3);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -40,7 +40,7 @@ module.exports.login = asyncErrorhandler(async(req, res) =>{
 })
 
 module.exports.changePassword =asyncErrorhandler( async (req, res) =>{
-  if(req.body.password.length < 7) return res.status(401).json({message: "Password must be greater than 6", success: false })
+  if(req.body.password.length < 4) return res.status(401).json({message: "Password must be greater than 4", success: false })
   
   const hashedPassword = await bcrypt.hash(password, 3);
   await User.updateOne(

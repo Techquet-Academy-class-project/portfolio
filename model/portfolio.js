@@ -15,7 +15,7 @@ const portfolioSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minLength: [6, "cannot save {VALUE} in {PATH}"],
+    minLength: [4, "cannot save {VALUE} in {PATH}"],
     required: [true, "Password must be provided"],
   },
   createdOn: { type: Date, default: Date.now },
