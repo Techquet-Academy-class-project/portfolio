@@ -1,5 +1,5 @@
 const express = require("express")
-const {createUser, getAllUsers, getApprovedUsers,getAUser,getMyProfile} = require("../controllers/userController")
+const {createUser, getAllUsers, getApprovedUsers,getAUser,getMyProfile, updateAUser} = require("../controllers/userController")
 const router = express.Router()
 const {isAuthorized} = require("../middleware/authorisation")
 
@@ -18,6 +18,9 @@ router.get("/myprofile" , isAuthorized, getMyProfile)
 
 //get a user
 router.get("/:username", getAUser)
+
+// update a profile
+router.put("/:_id", isAuthorized, updateAUser)
 
 
 

@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const { asyncErrorhandler } = require("../ErrorHandler/asyncErrorHandler");
 const { User } = require("../model/portfolio");
 const jwt = require("jsonwebtoken");
-const fs = require("fs");
+
 require("dotenv").config();
 
 module.exports.createUser = asyncErrorhandler(async (req, res) => {

@@ -63,3 +63,15 @@ const userWithoutPassword = {
     success: true,
   });
 });
+
+
+module.exports.updateAUser = asyncErrorhandler(async (req, res) =>{
+  const{ password, role, createdOn, ...others } = req.body
+  const updatedUser = await User.updateOne({_id : req.params._id}, others)
+        return res.json({
+          data: updatedUser,
+          message: "todo updated successfully",
+          success: true,
+        });
+
+})
