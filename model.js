@@ -7,15 +7,15 @@ const portfolioSchema = new mongoose.Schema({
  email : {type: String, required: true, unique: true},
  username : {type: String, required: true, unique: true},
  password : {type: String, required: true, minLength: 6},
- createdOn : {type: Date, default: Date.now()},
+ createdOn : {type: Date, default: Date.now},
  intro : {type: String, maxLength: 100},
  about : {type: String, maxLength: 1000},
- tools : {type: String},
+ tools : [{type: String}],
  howManyMonthsProgramming : {type: Number},
  favoriteMealInTechquestProgram : {type: String},
  favoriteQuote : {type: String},
  role : {type: String, enum: roleEnum, default: "user"},
- lastChangedPassword: {type: Date, default: Date.now()},
+ lastChangedPassword: {type: Date, default: Date.now},
  approved : {type: Boolean, default: false}
 });
 

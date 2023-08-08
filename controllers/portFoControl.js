@@ -33,18 +33,14 @@ return res.json({data: req.user, message : "This is your profile", success : tru
 
 // EDIT USER PROFILE
 module.exports.editUser = asyncErrHandler(async (req,res)=>{
-const { name, email, username, intro, about, tools, howManyMonthsProgramming, favoriteMealInTechquestProgram, favoriteQuote } = req.body;
-req.user.name = name;
-req.user.email = email;
-req.user.username = username;
-req.user.intro = intro;
-req.user.about = about;
-req.user.tools = tools;
-req.user.howManyMonthsProgramming = howManyMonthsProgramming;
-req.user.favoriteMealInTechquestProgram = favoriteMealInTechquestProgram;
-req.user.favoriteQuote = favoriteQuote;
+const { intro, about, tools, howManyMonthsProgramming, favoriteMealInTechquestProgram, favoriteQuote } = req.body;
+if(intro) req.user.intro = intro;
+if(about) req.user.about = about;
+if(tools) req.user.tools = tools;
+if(howManyMonthsProgramming) req.user.howManyMonthsProgramming = howManyMonthsProgramming;
+if (favoriteMealInTechquestProgram) req.user.favoriteMealInTechquestProgram = favoriteMealInTechquestProgram;
+if(favoriteQuote) req.user.favoriteQuote = favoriteQuote;
 const updatedUser = await req.user.save();
-// console.log(updatedUser);
 return res.json({data: updatedUser, message: "Update successful", success: true });
 })
 
@@ -53,7 +49,7 @@ return res.json({data: updatedUser, message: "Update successful", success: true 
 module.exports.changePassword = asyncErrHandler(async (req,res)=>{
 if(req.body.password.length < 6) return res.status(401).json({message: "Password must be greater than 6", success: false})
 const hashedPassword = await bcrypt.hash (req.body.password, 4);
-await Portfolio.updateOne ({_id: req.user._id}, {password: hashedPassword, createdOn: Date.now()})
+await Portfolio.updateOne ({_id: req.user._id}, {password: hashedPassword, lastChangedPassword: Date.now()})
 return res.status(200).json({message: "Password successfully updated", success: true})
 })
 
