@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
 const cookieParser = require("cookie-parser")
 require("dotenv").config();
+const {authorized} = require("../middleware");
 
 
 // const defaultRole = "user";
@@ -64,7 +65,7 @@ res.cookie("authorisation", "", {maxAge : 1})
 
 
 // GET ALL USER
-const getAllUser = app.get("/getusers", async function(req,res){
+const getAllUser = app.get("/getusers", authorized,async function(req,res){
 const allUsers = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
 const users = JSON.parse(allUsers);
 return res.json(users);

@@ -1,7 +1,11 @@
 const express = require ("express")
 const app = express()
+const cookieParser = require("cookie-parser")
+
 
 const {signup, login, logout, getAllUser, oneUser} = require("./controllers/users")
+
+app.use(cookieParser());
 
 app.use("/users", signup)
 app.use("/users", login)
