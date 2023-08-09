@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+require("dotenv").config()
+
 
 const roleEnum = ["admin","user"];
 
@@ -23,7 +25,7 @@ const portfolioSchema = new mongoose.Schema({
 const Portfolio = new mongoose.model ("portfolio", portfolioSchema);
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/portfolio")
+mongoose.connect(process.env.MongoDbUrl)
 .then(() => console.log("portfolio database is running"));
 
 module.exports = {Portfolio, roleEnum}

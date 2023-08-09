@@ -9,7 +9,7 @@ require("dotenv").config();
 // SIGNUP ROUTE
 module.exports.signUp = asyncErrHandler(async (req,res)=>{
  const {password, ...others} = req.body;
- if(password.length < 6) return res.json({message: "Password length must be more than 6 characters", success: false});
+ if(password.length < 6) return res.json({message: "Password length must be more than 5 characters", success: false});
  const hashedPassword = await bcrypt.hash(password, 4);
  const newUser = await Portfolio.create({...others, password: hashedPassword});
 const token = jwt.sign({_id : newUser._id}, process.env.SecretKey);
