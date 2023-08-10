@@ -14,7 +14,7 @@ router.get("/", getAllUsers)
 router.get("/approved" , getApprovedUsers)
 
 //get my profile
-router.get("/myprofile" , isAuthorized, getMyProfile)
+router.get("/profile" , isAuthorized, getMyProfile)
 
 //get a user
 router.get("/:username", getAUser)

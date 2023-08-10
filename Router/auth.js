@@ -4,7 +4,7 @@ router.use(express.json());
 const { createUser, login , logout, changePassword} = require("../controllers/authController");
 
 // create a user
-router.post("/register", createUser);
+router.post("/signup", createUser);
 
 //create a login route
 router.post("/login", login);

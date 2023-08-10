@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const {User} =require("./model/portfolio")
 const userRouter = require("./Router/user")
 const authRouter = require("./Router/auth")
+const adminRouter = require("./Router/admin")
 
 const cors = require("cors")
 const cookieParser =require("cookie-parser")
@@ -13,6 +14,7 @@ app.use(cookieParser())
 
 app.use("/user", userRouter)
 app.use("/auth", authRouter)
+app.use("/admin", adminRouter)
 
 
 
