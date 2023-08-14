@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
 const cookieParser = require("cookie-parser")
 require("dotenv").config();
-const {authorized} = require("../middleware");
+const {authorized, checkAdmin} = require("../middleware");
 
 
 // const defaultRole = "user";
@@ -15,6 +15,7 @@ const role = {
   USER: 'user'
 };
 const userROLE = role.USER;
+const adminROLE = role.ADMIN
 
 const defaultApproved = false;
 
@@ -65,7 +66,7 @@ res.cookie("authorisation", "", {maxAge : 1})
 
 
 // GET ALL USER
-const getAllUser = app.get("/getusers", authorized,async function(req,res){
+const getAllUser = app.get("/getusers", checkAdmin , async function(req,res){
 const allUsers = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
 const users = JSON.parse(allUsers);
 return res.json(users);
@@ -85,4 +86,59 @@ return res.json({data: noPassword, success: true})
 })
 
 
-module.exports = {signup, login, logout, getAllUser, oneUser};
+// USER'S PROFILE
+const profile = app.get("/profile", authorized, async function(req,res){
+return res.json({data: req.user, message: `This is your profile`, success: true})
+})
+
+
+// EDIT USER PROFILE
+const editUser = app.put("/edit-profile", authorized, express.json(), async function (req,res){
+try{
+const {intro, about, tools, howManyMonthsProgramming, favoriteMealInTechquestProgram, favoriteQuote} = req.body;
+if(intro) req.user.intro = intro;
+if(about) req.user.about = about;
+if(tools) req.user.tools = tools;
+if(howManyMonthsProgramming) req.user.howManyMonthsProgramming = howManyMonthsProgramming;
+if (favoriteMealInTechquestProgram) req.user.favoriteMealInTechquestProgram = favoriteMealInTechquestProgram;
+if(favoriteQuote) req.user.favoriteQuote = favoriteQuote;
+const users = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
+const user = JSON.parse(users);
+const findUser = user.find(user => user._id ===req.user._id);
+// Update the user
+user[findUser] = req.user;
+await fs.writeFile(__dirname + "/../database/db.json", JSON.stringify(user));
+return res.json({data: req.user, message: "Update successful", success: true })
+}catch (err){
+return res.json({data: null, message : err.message, success : false})
+}
+})
+
+
+// CHANGE PASSWORD
+const changePassword = app.put("/settings", authorized, express.json(), async function (req,res){
+try{
+if(req.body.password.length < 6) return res.status(401).json({message: "Password must be greater than 6", success: false});
+const hashedPassword = await bcrypt.hash (req.body.password, 3);
+const readUsers =  JSON.parse(await fs.readFile(__dirname + "/../database/db.json", "utf-8"));
+const findUser = readUsers.find(user => user._id ===req.user._id)
+if (findUser) {
+  findUser.password = hashedPassword;
+  findUser.lastChangedPassword = new Date()
+};
+await fs.writeFile(__dirname + "/../database/db.json", JSON.stringify(readUsers));
+return res.json({data: findUser, message: "Password update successful", success: true })
+}catch (err){
+return res.json({data: null, message : err.message, success : false})
+}
+})
+
+
+// const list = {"name":"Isaiah1","username":"Iss1","email":"iss1@yahoo.com","password":"$2b$04$Yez29A.Thc8uPIpaXhO5AebM7zVwPQDo4Hh2zoU706OlcfPkbUBqO","intro":"Hello, I am Iss.","about":"This is about me","role":"admin","_id":"459195f2-7743-4d31-a958-6ebf319ada0b","createdOn":"2023-08-09T14:48:34.061Z","lastChangedPassword":"2023-08-11T10:00:41.080Z","approved":false}
+
+// const spread = {...list, username: "eazzzy"}
+// console.log(spread);
+
+
+
+module.exports = {signup, login, logout, getAllUser, oneUser, profile, editUser, changePassword};
