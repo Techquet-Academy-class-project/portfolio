@@ -15,9 +15,7 @@ app.use("/users", profile)
 app.use("/users", editUser)
 app.use("/users", changePassword)
 app.use("/users", unapprovedUser)
-
 app.use("/users", updateUser)
-
 app.use("/users", oneUser)
 
 

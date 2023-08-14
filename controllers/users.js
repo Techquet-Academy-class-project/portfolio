@@ -143,7 +143,7 @@ const allUsers = JSON.parse(user);
 const unapprovedUsers = allUsers.filter(user => !user.approved)
 return res.json({message: "Unapproved list", unapprovedUsers, success: true })
 }catch (err){
-return res.json({message : "err.message", success : false})
+return res.json({message : err.message, success : false})
 }
 })
 
