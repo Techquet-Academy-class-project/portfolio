@@ -3,17 +3,20 @@ const app = express()
 const cookieParser = require("cookie-parser")
 
 
-const {signup, login, logout, getAllUser, oneUser, profile, editUser, changePassword} = require("./controllers/users")
+const {signup, login, logout, getAllUsers, oneUser, profile, editUser, changePassword, unapprovedUser, updateUser} = require("./controllers/users")
 
 app.use(cookieParser());
 
 app.use("/users", signup)
 app.use("/users", login)
 app.use("/users", logout)
-app.use("/users", getAllUser)
+app.use("/users", getAllUsers)
 app.use("/users", profile)
 app.use("/users", editUser)
 app.use("/users", changePassword)
+app.use("/users", unapprovedUser)
+
+app.use("/users", updateUser)
 
 app.use("/users", oneUser)
 

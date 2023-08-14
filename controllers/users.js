@@ -66,7 +66,7 @@ res.cookie("authorisation", "", {maxAge : 1})
 
 
 // GET ALL USER
-const getAllUser = app.get("/getusers", checkAdmin , async function(req,res){
+const getAllUsers = app.get("/getusers" , async function(req,res){
 const allUsers = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
 const users = JSON.parse(allUsers);
 return res.json(users);
@@ -75,10 +75,10 @@ return res.json(users);
 
 // GET A USER
 const oneUser = app.get("/getusers/:username", async function(req,res){
-const user = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
-const oneUser = JSON.parse(user);
+const users = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
+const allUsers = JSON.parse(users);
 const username = req.params.username
-const findUser = oneUser.find(user => user.username === username )
+const findUser = allUsers.find(user => user.username === username )
 if(!findUser) return res.status(404).json({data: null, message: `Autthorization failed`})
 const noPassword = {...findUser};
 delete noPassword.password; delete noPassword.intro
@@ -134,6 +134,34 @@ return res.json({data: null, message : err.message, success : false})
 })
 
 
+// @ADMIN - GET UNAPPROVED USER
+const unapprovedUser = app.get("/unapproved/",checkAdmin, async function(req,res){
+try{
+const user = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
+const allUsers = JSON.parse(user);
+// Check users that aren't approved
+const unapprovedUsers = allUsers.filter(user => !user.approved)
+return res.json({message: "Unapproved list", unapprovedUsers, success: true })
+}catch (err){
+return res.json({message : "err.message", success : false})
+}
+})
+
+
+// @ADMIN - UPDATE USER
+const updateUser = app.put("/update/:username", checkAdmin, express.json(), async function (req,res){
+const users = await fs.readFile(__dirname + "/../database/db.json", "utf-8");
+const allUsers = JSON.parse(users);
+const username = req.params.username;
+const findUser = allUsers.find(user => user.username === username )
+if(!findUser) return res.json({data: null, message: "No user found", success: false})
+const {role, approved} = req.body
+if(role !== undefined){findUser.role = role};
+if(approved !== undefined){findUser.approved = approved};
+await fs.writeFile(__dirname + "/../database/db.json", JSON.stringify(allUsers));
+return res.json({ message: "Update successful", success: true });
+})
+
 // const list = {"name":"Isaiah1","username":"Iss1","email":"iss1@yahoo.com","password":"$2b$04$Yez29A.Thc8uPIpaXhO5AebM7zVwPQDo4Hh2zoU706OlcfPkbUBqO","intro":"Hello, I am Iss.","about":"This is about me","role":"admin","_id":"459195f2-7743-4d31-a958-6ebf319ada0b","createdOn":"2023-08-09T14:48:34.061Z","lastChangedPassword":"2023-08-11T10:00:41.080Z","approved":false}
 
 // const spread = {...list, username: "eazzzy"}
@@ -141,4 +169,4 @@ return res.json({data: null, message : err.message, success : false})
 
 
 
-module.exports = {signup, login, logout, getAllUser, oneUser, profile, editUser, changePassword};
+module.exports = {signup, login, logout, getAllUsers, oneUser, profile, editUser, changePassword, unapprovedUser, updateUser};
