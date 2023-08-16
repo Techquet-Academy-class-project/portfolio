@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 // GET ALL APPROVED USERS
 module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
- const allUser = await Portfolio.find({approved: true}, "-name -username -intro", );
+ const allUser = await Portfolio.find({approved: true}, "-name -username -intro");
  res.json({data: allUser, success: true})
 })
 
@@ -24,14 +24,14 @@ module.exports.getAUser = asyncErrHandler(async (req,res)=>{
 })
 
 
-// USER'S PROFILE
+// USER'S PROFILE  @AUTH ROUTE
 module.exports.userProfile = asyncErrHandler(async (req,res)=>{
 // console.log(req.user);
 return res.json({data: req.user, message : "This is your profile", success : true})
 })
 
 
-// EDIT USER PROFILE
+// EDIT USER PROFILE   @AUTH ROUTE
 module.exports.editUser = asyncErrHandler(async (req,res)=>{
 const { intro, about, tools, howManyMonthsProgramming, favoriteMealInTechquestProgram, favoriteQuote } = req.body;
 if(intro) req.user.intro = intro;
@@ -45,7 +45,7 @@ return res.json({data: updatedUser, message: "Update successful", success: true 
 })
 
 
-// CHANGE PASSWORD
+// CHANGE PASSWORD   @AUTH ROUTE
 module.exports.changePassword = asyncErrHandler(async (req,res)=>{
 if(req.body.password.length < 6) return res.status(401).json({message: "Password must be greater than 6", success: false})
 const hashedPassword = await bcrypt.hash (req.body.password, 4);
