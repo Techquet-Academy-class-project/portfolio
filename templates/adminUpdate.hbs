@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Portfolio</title>
+ <link rel="stylesheet" href="/signup.css">
+</head>
+
+<body>
+
+ <h2>User's Edit-Page</h2>
+ <br>
+ <form class="signup" action="/admin/users/update" method="post">
+
+ <label for="username">Select User:</label>
+ <select name="username" id="username">
+  {{#each data}}
+  <option value="{{this.username}}">{{this.username}}</option>
+  {{/each}}
+ </select>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+  <input type="text" name="role" placeholder="Role">
+  <input type="text" name="approved" placeholder="Approved">
+
+  <button type="submit">Save Changes</button>
+ </form>
+ <br>
+ <a class="homeS" href="/admin/users">Back Home</a>
+</body>
+
+</html>

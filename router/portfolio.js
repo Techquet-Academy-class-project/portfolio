@@ -1,9 +1,22 @@
 const express = require("express");
+const app = express()
 const router = express.Router();
 const {Portfolio} = require("../model");
 const {getAllUsers, getAUser, userProfile, changePassword, editUser} = require("../controllers/portFoControl");
 const {authorized} = require("../middleware");
 const bcrypt = require("bcrypt");
+
+
+const hbs = require ("hbs");
+const path = require ("path");
+
+const templatesPath = path.join(__dirname, "../templates")
+
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}))
+app.set("view engine", "hbs");
+app.set("views", templatesPath);
 
 router.use(express.json());
 
@@ -15,10 +28,17 @@ router.get("/", getAllUsers);
 router.get("/profile", authorized, userProfile);
 
 // CHANGE PASSWORD
-router.put("/settings", authorized ,changePassword);
+router.get("/settings", authorized, (req, res) =>{
+ res.render("changePass")
+});
+router.post("/settings", authorized ,changePassword);
 
 // EDIT USER
-router.put("/profile", authorized ,editUser);
+router.get("/profile/edit", authorized, (req, res) =>{
+ res.render("editProfile")
+});
+
+router.post("/profile/edit", authorized ,editUser);
 
 // GET ONE USER
 router.get("/:username", getAUser);
