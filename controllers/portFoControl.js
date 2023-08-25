@@ -35,9 +35,17 @@ module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
 
 // GET A USER
 module.exports.getAUser = asyncErrHandler(async (req,res)=>{
- const username = req.params.username
+ const username = req.query.username
  const user = await Portfolio.findOne({username}, "-password");
- res.json({data: user, success: true})
+if(user){
+ res.render("userSearch",{
+  data: user
+ })
+}else{
+const script = "<script>alert('No user found'); window.location.href = '/users' </script>";
+return res.send(script);
+}
+//  res.json({data: user, success: true})
 })
 
 
@@ -77,7 +85,11 @@ return res.send(script);
 
 // CHANGE PASSWORD   @AUTH ROUTE
 module.exports.changePassword = asyncErrHandler(async (req,res)=>{
-if(req.body.password.length < 6) return res.status(401).json({message: "Password must be greater than 6", success: false})
+if(req.body.password.length < 6) {
+  const script = "<script>alert('Password must be greater than 5 characters'); window.location.href = '/users/settings' </script>";
+return res.send(script);
+}
+// return res.status(401).json({message: "Password must be greater than 6", success: false})
 const hashedPassword = await bcrypt.hash (req.body.password, 4);
 const update = await Portfolio.updateOne ({_id: req.user._id}, {password: hashedPassword, lastChangedPassword: Date.now()})
 if (update) {

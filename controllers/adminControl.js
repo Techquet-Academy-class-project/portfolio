@@ -16,7 +16,10 @@ module.exports.updateUser = asyncErrHandler(async (req,res)=>{
 const {username, role, approved} = req.body
   // const username = req.params.username;
 const findUser = await Portfolio.findOne({username})
-if(!findUser) return res.json({data: null, message: "No user found", success: false})
+if(!findUser){
+const script = "<script>alert('No user found'); window.location.href = '/admin/users' </script>";
+return res.send(script)};
+// return res.json({data: null, message: "No user found", success: false})
 // const{ role, approved } = req.body;
  if (role) {
 findUser.role = role;

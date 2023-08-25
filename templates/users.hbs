@@ -10,10 +10,10 @@
 
 <body>
  <header>
-  <form action="/users" method="get">
+  <form action="/users/search" method="get">
 
   <input type="text" name="username" placeholder="Username">
- <button type="submit">Search</button>
+ <button class="searchButton" type="submit">Search</button>
 
   </form>
 
@@ -31,12 +31,12 @@
 </ul> --}}
 
 <table>
-<tr>
+<tr class="table">
   <th>S/N</th>
-  <th>Username</th>
-  <th>Tools</th>
-  <th>Role</th>
-  <th>About</th>
+  <th>USERNAME</th>
+  <th>TOOLS</th>
+  <th>ROLE</th>
+  <th>ABOUT</th>
 </tr>
 {{#each info}}
 <tr>

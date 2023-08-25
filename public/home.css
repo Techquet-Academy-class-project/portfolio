@@ -5,7 +5,7 @@
 
 body {
  color: #222;
- background-color: darkkhaki;
+ background-color: rgb(244, 242, 219);
 }
 
 
@@ -44,4 +44,14 @@ a.signupP, a.usersP, a.adminP {
  padding: 5px;
  font-weight: bold;
  background-color: rgb(88, 28, 43);
+}
+
+img {
+ width: 60%;
+ height: 350px;
+
+}
+
+h1{
+ font-family: Georgia, 'Times New Roman', Times, serif;
 }

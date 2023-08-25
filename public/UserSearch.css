@@ -37,7 +37,8 @@ header nav {
  gap: 15px
 }
 
-header nav a.editP, a.usersP, 
+header nav a.editP,
+a.usersP,
 button.logoutButton {
  color: rgb(227, 221, 234);
  border: 1px solid #123;
@@ -45,10 +46,4 @@ button.logoutButton {
  padding: 5px;
  font-weight: bold;
  background-color: rgb(88, 28, 43);
-}
-
-p {
- font-style: oblique;
- font-size: large;
- font-weight: 800;
 }

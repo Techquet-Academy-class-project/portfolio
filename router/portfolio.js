@@ -41,7 +41,8 @@ router.get("/profile/edit", authorized, (req, res) =>{
 router.post("/profile/edit", authorized ,editUser);
 
 // GET ONE USER
-router.get("/:username", getAUser);
+router.get("/search", getAUser);
+// router.get("/:username", getAUser);
 
 
 module.exports = router;
