@@ -36,6 +36,21 @@ header nav {
  gap: 15px
 }
 
+div.greet {
+ background-color: burlywood;
+ border: 1px solid brown;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-style: oblique;
+ color: rgb(125, 32, 32);
+}
+
+div.time {
+ text-align: left;
+ color: brown;
+ margin-top: -45px;
+ margin-left: 5px;
+}
+
 header nav a.loginP,
 a.signupP, a.usersP, a.adminP {
  color: rgb(227, 221, 234);
@@ -46,12 +61,16 @@ a.signupP, a.usersP, a.adminP {
  background-color: rgb(88, 28, 43);
 }
 
-img {
+div.image img {
  width: 60%;
  height: 350px;
-
 }
 
-h1{
- font-family: Georgia, 'Times New Roman', Times, serif;
+
+div.main div.texts {
+ font-size: larger;
+ text-align: justify;
+ margin: -350px 10px 0px 65%;
+ line-height: 1.6rem;
+ height: 100vh;
 }

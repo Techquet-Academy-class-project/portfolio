@@ -22,7 +22,7 @@ module.exports.getAllUsers = asyncErrHandler(async (req,res)=>{
 //  res.render("users", {
 //   info: allUsers
 //  })
- // res.json({info: allUsers, success: true})
+// res.json({info: allUsers, success: true})
 // })
 
 
@@ -54,7 +54,6 @@ module.exports.userProfile = asyncErrHandler(async (req,res)=>{
  res.render("profile",{
   data: req.user
  })
-// console.log(req.user);
 // return res.json({data: req.user, message : "This is your profile", success : true})
 })
 
@@ -86,7 +85,7 @@ return res.send(script);
 // CHANGE PASSWORD   @AUTH ROUTE
 module.exports.changePassword = asyncErrHandler(async (req,res)=>{
 if(req.body.password.length < 6) {
-  const script = "<script>alert('Password must be greater than 5 characters'); window.location.href = '/users/settings' </script>";
+const script = "<script>alert('Password must be greater than 5 characters'); window.location.href = '/users/settings' </script>";
 return res.send(script);
 }
 // return res.status(401).json({message: "Password must be greater than 6", success: false})
@@ -96,7 +95,6 @@ if (update) {
 const script = "<script>alert('Password Changed Successfully. Please, Login to Continue'); window.location.href = '/auth/login' </script>";
 return res.send(script);
 }
-
 // return res.status(200).json({message: "Password successfully updated", success: true})
 })
 
