@@ -1,6 +1,6 @@
-const {asyncErrHandler} = require("./errorHandler/asyncErrHandler");
+const {asyncErrHandler} = require("../errorHandler/asyncErrHandler");
 const jwt = require("jsonwebtoken");
-const {Portfolio} = require("./model");
+const {Portfolio} = require("../model/db");
 
 // CHECKING IF USER IS AUTHENTICATED
 module.exports.authorized = asyncErrHandler(async (req,res,next)=>{

@@ -1,4 +1,4 @@
-const {Portfolio, roleEnum} = require("../model");
+const {Portfolio, roleEnum} = require("../model/db");
 const {asyncErrHandler} = require("../errorHandler/asyncErrHandler")
 const bcrypt = require("bcrypt");
 

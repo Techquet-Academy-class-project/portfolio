@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express()
 const router = express.Router();
-const {Portfolio} = require("../model");
+const {Portfolio} = require("../model/db");
 const {getAllUsers, getAUser, userProfile, changePassword, editUser} = require("../controllers/portFoControl");
-const {authorized} = require("../middleware");
+const {authorized} = require("../middleware/midAuth");
 const bcrypt = require("bcrypt");
 
 

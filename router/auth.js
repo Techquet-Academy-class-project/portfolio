@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express()
 const router = express.Router();
-const {Portfolio} = require("../model");
+const {Portfolio} = require("../model/db");
 const {signUp, login, logout, AdminLogin, adminProfile} = require("../controllers/authControl");
 
 const hbs = require ("hbs");
 const path = require ("path");
-const { checkAdmin } = require("../middleware");
+const { checkAdmin } = require("../middleware/midAuth");
 
 const templatesPath = path.join(__dirname, "../templates")
 

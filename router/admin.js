@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {Portfolio} = require("../model");
+const {Portfolio} = require("../model/db");
 const { unapprovedUsers, updateUser, adminUpdatePage } = require("../controllers/adminControl");
-const {checkAdmin} = require("../middleware");
+const {checkAdmin} = require("../middleware/midAuth");
 
 
 router.use(express.json());

@@ -1,4 +1,4 @@
-const {Portfolio} = require("../model");
+const {Portfolio} = require("../model/db");
 const {asyncErrHandler} = require("../errorHandler/asyncErrHandler");
 const bcrypt = require ("bcrypt");
 const jwt = require ("jsonwebtoken");
@@ -7,27 +7,34 @@ require("dotenv").config();
 
 // SIGNUP ROUTE
 module.exports.signUp = asyncErrHandler(async (req,res)=>{
- const {password, ...others} = req.body;
+ const {password, email, username, firstName, lastName} = req.body;
+ const checkExistingUser = await Portfolio.findOne({username});
+ if(checkExistingUser){
+  const script = "<script>alert('Username already exist.'); window.location.href = '/auth/signup' </script>";
+ return res.send(script);
+ }
+ const checkExistingEmail = await Portfolio.findOne({email});
+ if(checkExistingEmail){
+  const script = "<script>alert('Email already exist.'); window.location.href = '/auth/signup' </script>";
+ return res.send(script);
+ }
+ if(!firstName || !lastName || !email || !username || !password){
+ const script = "<script>alert('Registration failed. Fill up all information'); window.location.href = '/signup' </script>";
+ return res.send(script);
+}
  if(password.length < 6) {
  const script = "<script>alert('Password length must be more than 5 characters'); window.location.href = '/auth/signup' </script>";
-return res.send(script);
+ return res.send(script);
  }
- // return res.json({message: "Password length must be more than 5 characters", success: false});
  const hashedPassword = await bcrypt.hash(password, 4);
- const newUser = await Portfolio.create({...others, password: hashedPassword});
-const token = jwt.sign({_id : newUser._id}, process.env.SecretKey);
-// Set the token as a cookie (Storing the token)
-res.cookie("authorization", token);
-// To pop up alert message on the client side
-if (newUser) {
-const script = "<script>alert('Registration Successful, Please Login To Continue'); window.location.href = '/login' </script>";
-res.send(script);
-} else {
-const script = "<script>alert('Registration failed'); window.location.href = '/signup' </script>";
-res.send(script);
+ const newUser = await Portfolio.create({ firstName, lastName, email, username, password: hashedPassword});
+ if (newUser) {
+ const script = "<script>alert('Registration Successful, Please Login To Continue'); window.location.href = '/login' </script>";
+ return res.send(script);
+ }else {
+ const script = "<script>alert('Registration failed'); window.location.href = '/signup' </script>";
+ return res.send(script);
 }
-// res.redirect("/login")
-// return res.json({data: newUser, message: "New user created succesfully", success: true})
 })
 
 
@@ -46,8 +53,8 @@ module.exports.login = asyncErrHandler(async(req,res)=>{
  }
  // return res.json({data: null, message: "Authentication error", success: false});
  const token = jwt.sign({_id : user._id}, process.env.SecretKey);
-res.cookie("authorization", token);
-res.redirect("/users/profile")
+ res.cookie("authorization", token);
+ res.redirect("/users/profile")
 // res.render("profile")
 // return res.json({data: user, message: "Welcome, login successful", success: true})
 })
